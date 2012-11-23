@@ -1,0 +1,55 @@
+<pipeline>	-> <single-cmd-io>
+		 | <single-cmd-io> (PIPE | PIPEERR) <pipeline>
+
+   PIPE    = '|'
+   PIPEERR = '|&'
+
+<single-cmd-io>	-> <single-cmd> <io-redirs>
+
+<io-redirs>	-> <io-redir>
+
+<io-redir>	-> INT? (TO | FROM | APPEND | TOERR | APPERR | FROMSTR) <single-argument>
+
+  TO = '>', FROM = '<', APPEND = '<<', TOERR = '>&'
+  APPERR = '>>&', FROMSTR = '<<<', INT = [0-9]+
+
+<single-cmd>	-> <simple-cmd>
+		 | LPAREN pipeline RPAREN             // subshell
+		 | FOR ...
+		 ...
+
+<simple-cmd>	-> <single-arg> (<ws> <single-arg>)*
+
+<single-arg>	-> <arg-unit>+
+
+<arg-unit>	-> SHELL_WORD
+		 | OPEN_SUBST <pipeline> RPAREN
+		 | SQUOTE <string-unit>* SQUOTE
+		 | DQUOTE <string-unit>* DQUOTE
+		 | '[[' <string-unit>* ']]'
+
+  SHELL_WORD=(letter | '\' char | '*' | '?' | ...)+
+  OPEN_SUBST='$(', SQUOTE="'", DQUOTE='"'
+
+<string-unit>	-> <string-atom>+
+
+<string-atom>   -> '\' <char>
+		 | <non-special char>
+		 | '$' <ident>
+		 | '$(' <pipeline> ')'
+
+  Actually really there needs to be several versions
+  of this, depending on the type of opening quote.
+  Also, the last two are only enabled for " and [[
+  strings.
+
+
+
+! pipeline   // reverse return code
+&&, ||, & to separate pipelines
+& as background (same sense as previously)
+((...)) arithmetic evaluation
+[[...]] conditional evaluation
+function
+$'...' lit string but with esc sequences like \n expanded
+$"..." translate string by locale (for C/POSIX, same as "...")
