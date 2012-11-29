@@ -20,5 +20,4 @@ class TestDivide(unittest.TestCase):
         self.assertDivide([["abc", "   ", "ghi"]])
 
     def test_multiparagraph(self):
-        self.assertDivide([["abc"], [""], ["ghi"]])
-
+        self.assertDivide([["abc", ""], ["ghi"]])
