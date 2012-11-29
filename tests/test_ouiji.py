@@ -21,3 +21,14 @@ class TestDivide(unittest.TestCase):
 
     def test_multiparagraph(self):
         self.assertDivide([["abc", ""], ["ghi"]])
+
+    def test_two_blank_lines(self):
+        self.assertDivide([["abc", "", ""], ["ghi"]])
+
+    def test_trailing_blank_line(self):
+        self.assertDivide([["abc", ""], ["ghi", ""]])
+
+    def test_initial_blank_line(self):
+        self.assertDivide([[""], ["ghi"]])
+
+
