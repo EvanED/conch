@@ -71,90 +71,11 @@ class MainWindow(QtGui.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        self.createActions()
-        self.createMenus()
         self.centralWidget = Previewer(self)
         self.setCentralWidget(self.centralWidget)
         self.centralWidget.webView.loadFinished.connect(self.updateTextEdit)
         self.setStartupText()
 
-    def createActions(self):
-        self.openAct = QtGui.QAction("&Open...", self,
-                shortcut=QtGui.QKeySequence.Open,
-                statusTip="Open an existing HTML file", triggered=self.open)
-
-        self.openUrlAct = QtGui.QAction("&Open URL...", self,
-                shortcut="Ctrl+U", statusTip="Open a URL",
-                triggered=self.openUrl)
-
-        self.saveAct = QtGui.QAction("&Save", self,
-                shortcut=QtGui.QKeySequence.Save,
-                statusTip="Save the HTML file to disk", triggered=self.save)
-
-        self.exitAct = QtGui.QAction("E&xit", self,
-                shortcut=QtGui.QKeySequence.Quit,
-                statusTip="Exit the application", triggered=self.close)
-
-        self.aboutAct = QtGui.QAction("&About", self,
-                statusTip="Show the application's About box",
-                triggered=self.about)
-
-        self.aboutQtAct = QtGui.QAction("About &Qt", self,
-                statusTip="Show the Qt library's About box",
-                triggered=QtGui.qApp.aboutQt)
-
-    def createMenus(self):
-        self.fileMenu = self.menuBar().addMenu("&File")
-        self.fileMenu.addAction(self.openAct)
-        self.fileMenu.addAction(self.openUrlAct)
-        self.fileMenu.addAction(self.saveAct)
-        self.fileMenu.addSeparator()
-        self.fileMenu.addAction(self.exitAct)
-        self.menuBar().addSeparator()
-        self.helpMenu = self.menuBar().addMenu("&Help")
-        self.helpMenu.addAction(self.aboutAct)
-        self.helpMenu.addAction(self.aboutQtAct)
-
-    def about(self):
-        QtGui.QMessageBox.about(self, "About Previewer",
-                "The <b>Previewer</b> example demonstrates how to view HTML "
-                "documents using a QtWebKit.QWebView.")
-
-    def open(self):
-        fileName = QtGui.QFileDialog.getOpenFileName(self)
-        if fileName:
-            fd = QtCore.QFile(fileName)
-            if not fd.open(QtCore.QIODevice.ReadOnly):
-                QtGui.QMessageBox.information(self, "Unable to open file",
-                        fd.errorString())
-                return
-
-            output = QtCore.QTextStream(fd).readAll()
-
-            # Display contents.
-            self.centralWidget.plainTextEdit.setPlainText(output)
-            self.centralWidget.setBaseUrl(QtCore.QUrl.fromLocalFile(fileName))
-
-    def openUrl(self):
-        url, ok = QtGui.QInputDialog.getText(self, "Enter a URL", "URL:",
-                QtGui.QLineEdit.Normal, "http://")
-
-        if ok and url:
-            url = QtCore.QUrl(url)
-            self.centralWidget.webView.setUrl(url)
-
-    def save(self):
-        content = self.centralWidget.plainTextEdit.toPlainText()
-        fileName = QtGui.QFileDialog.getSaveFileName(self)
-        if fileName:
-            fd = QtCore.QFile(fileName)
-            if not fd.open(QtCore.QIODevice.WriteOnly):
-                QtGui.QMessageBox.information(self, "Unable to open file",
-                        fd.errorString())
-                return
-
-            QtCore.QTextStream(fd) << content
- 
     def updateTextEdit(self):
         mainFrame = self.centralWidget.webView.page().mainFrame()
         frameText = mainFrame.toHtml()
