@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>566</width>
-    <height>169</height>
+    <width>423</width>
+    <height>377</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,22 +17,8 @@
    <item>
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QGroupBox" name="editorBox">
-      <property name="title">
-       <string>HTML Editor</string>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QPlainTextEdit" name="plainTextEdit"/>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
      <widget class="QGroupBox" name="previewerBox">
       <property name="title">
        <string>HTML Preview</string>
@@ -46,6 +32,20 @@
           </url>
          </property>
         </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QGroupBox" name="editorBox">
+      <property name="title">
+       <string>HTML Editor</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QPlainTextEdit" name="plainTextEdit"/>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
