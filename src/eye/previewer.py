@@ -57,12 +57,13 @@ class Previewer(QtGui.QWidget, Ui_Form):
 
         self.setupUi(self)
         self.baseUrl = QtCore.QUrl()
+
+        self.plainTextEdit.textChanged.connect(self.changedText)
  
     def setBaseUrl(self, url):
         self.baseUrl = url
 
-    def on_previewButton_clicked(self):
-        # Update the contents in the web viewer.
+    def changedText(self):
         text = self.plainTextEdit.toPlainText()
         self.webView.setHtml(text, self.baseUrl)
 
@@ -73,13 +74,7 @@ class MainWindow(QtGui.QMainWindow):
 
         self.centralWidget = Previewer(self)
         self.setCentralWidget(self.centralWidget)
-        self.centralWidget.webView.loadFinished.connect(self.updateTextEdit)
         self.setStartupText()
-
-    def updateTextEdit(self):
-        mainFrame = self.centralWidget.webView.page().mainFrame()
-        frameText = mainFrame.toHtml()
-        self.centralWidget.plainTextEdit.setPlainText(frameText)
 
     def setStartupText(self):
         self.centralWidget.webView.setHtml("""
