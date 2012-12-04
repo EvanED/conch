@@ -6,4 +6,4 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
         if (event.key() == QtCore.Qt.Key_Return):
             print("enter!")
         else:
-            super(MyTextEdit, self).keyPressEvent(event)
+            super(EnterActionTextEdit, self).keyPressEvent(event)
