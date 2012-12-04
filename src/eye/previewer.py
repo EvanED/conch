@@ -61,8 +61,7 @@ class Previewer(QtGui.QWidget, Ui_Form):
     def setBaseUrl(self, url):
         self.baseUrl = url
 
-    def changedText(self):
-        text = self.plainTextEdit.toPlainText()
+    def changedText(self, text):
         self.webView.setHtml(text, self.baseUrl)
 
 
