@@ -49,6 +49,9 @@ from PyQt4 import QtCore, QtGui, QtWebKit
 
 from ui_previewer import Ui_Form
 
+import conch.parser
+import conch.engine
+
 class Previewer(QtGui.QWidget, Ui_Form):
     def __init__(self, parent=None):
         super(Previewer, self).__init__(parent)
@@ -62,7 +65,12 @@ class Previewer(QtGui.QWidget, Ui_Form):
         self.baseUrl = url
 
     def changedText(self, text):
-        self.webView.setHtml(text, self.baseUrl)
+        command_ast = conch.parser.parse_to_ast(text)
+        child = conch.engine.execute(command_ast)
+        child.stdin.close()
+        child.wait()
+        output = child.stdout.read() + child.stderr.read()
+        self.webView.setHtml(output, self.baseUrl)
 
 
 class MainWindow(QtGui.QMainWindow):
