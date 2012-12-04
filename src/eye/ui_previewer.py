@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'previewer.ui'
 #
-# Created: Fri Nov 30 10:09:51 2012
+# Created: Mon Dec  3 19:37:06 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(566, 169)
+        Form.resize(423, 377)
         self.horizontalLayout_4 = QtGui.QHBoxLayout(Form)
         self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
         self.splitter = QtGui.QSplitter(Form)
@@ -37,7 +37,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
         self.verticalLayout_2 = QtGui.QVBoxLayout()
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
-        self.plainTextEdit = QtGui.QPlainTextEdit(self.editorBox)
+        self.plainTextEdit = EnterActionTextEdit(self.editorBox)
         self.plainTextEdit.setObjectName(_fromUtf8("plainTextEdit"))
         self.verticalLayout_2.addWidget(self.plainTextEdit)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
@@ -52,3 +52,4 @@ class Ui_Form(object):
         self.editorBox.setTitle(QtGui.QApplication.translate("Form", "HTML Editor", None, QtGui.QApplication.UnicodeUTF8))
 
 from PyQt4 import QtWebKit
+from widgets import EnterActionTextEdit

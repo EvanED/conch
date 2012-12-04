@@ -43,7 +43,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QPlainTextEdit" name="plainTextEdit"/>
+          <widget class="EnterActionTextEdit" name="plainTextEdit"/>
          </item>
         </layout>
        </item>
@@ -54,6 +54,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>EnterActionTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>widgets</header>
+  </customwidget>
   <customwidget>
    <class>QWebView</class>
    <extends>QWidget</extends>
