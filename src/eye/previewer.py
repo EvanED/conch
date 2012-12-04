@@ -42,14 +42,12 @@
 ###########################################################################
 
 
-# This is only needed for Python v2 but is harmless for Python v3.
 import sip
-sip.setapi('QString', 2)
+sip.setapi('QString', 3)
 
 from PyQt4 import QtCore, QtGui, QtWebKit
 
 from ui_previewer import Ui_Form
-
 
 class Previewer(QtGui.QWidget, Ui_Form):
     def __init__(self, parent=None):
