@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'previewer.ui'
 #
-# Created: Mon Dec  3 19:37:06 2012
+# Created: Mon Dec  3 23:15:39 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(423, 377)
+        Form.resize(445, 513)
         self.horizontalLayout_4 = QtGui.QHBoxLayout(Form)
         self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
         self.splitter = QtGui.QSplitter(Form)
@@ -26,6 +26,8 @@ class Ui_Form(object):
         self.previewerBox = QtGui.QGroupBox(self.splitter)
         self.previewerBox.setObjectName(_fromUtf8("previewerBox"))
         self.horizontalLayout_3 = QtGui.QHBoxLayout(self.previewerBox)
+        self.horizontalLayout_3.setSpacing(0)
+        self.horizontalLayout_3.setMargin(0)
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
         self.webView = QtWebKit.QWebView(self.previewerBox)
         self.webView.setUrl(QtCore.QUrl(_fromUtf8("about:blank")))
@@ -34,10 +36,13 @@ class Ui_Form(object):
         self.editorBox = QtGui.QGroupBox(self.splitter)
         self.editorBox.setObjectName(_fromUtf8("editorBox"))
         self.horizontalLayout_2 = QtGui.QHBoxLayout(self.editorBox)
+        self.horizontalLayout_2.setSpacing(0)
+        self.horizontalLayout_2.setMargin(0)
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
         self.verticalLayout_2 = QtGui.QVBoxLayout()
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
         self.plainTextEdit = EnterActionTextEdit(self.editorBox)
+        self.plainTextEdit.setBackgroundVisible(False)
         self.plainTextEdit.setObjectName(_fromUtf8("plainTextEdit"))
         self.verticalLayout_2.addWidget(self.plainTextEdit)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
@@ -48,8 +53,6 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "Form", None, QtGui.QApplication.UnicodeUTF8))
-        self.previewerBox.setTitle(QtGui.QApplication.translate("Form", "HTML Preview", None, QtGui.QApplication.UnicodeUTF8))
-        self.editorBox.setTitle(QtGui.QApplication.translate("Form", "HTML Editor", None, QtGui.QApplication.UnicodeUTF8))
 
 from PyQt4 import QtWebKit
 from widgets import EnterActionTextEdit
