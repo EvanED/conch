@@ -9,10 +9,3 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
         else:
             super(EnterActionTextEdit, self).keyPressEvent(event)
 
-    def say_hi(self, string):
-        print(string)
-
-    def __init__(self, *args, **kwargs):
-        super(EnterActionTextEdit, self).__init__(*args, **kwargs)
-        self.returnPressed.connect(self.say_hi)
-

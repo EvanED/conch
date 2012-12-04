@@ -58,8 +58,8 @@ class Previewer(QtGui.QWidget, Ui_Form):
         self.setupUi(self)
         self.baseUrl = QtCore.QUrl()
 
-        self.plainTextEdit.textChanged.connect(self.changedText)
- 
+        self.plainTextEdit.returnPressed.connect(self.changedText)
+
     def setBaseUrl(self, url):
         self.baseUrl = url
 
