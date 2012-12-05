@@ -20,3 +20,26 @@ def _divide_into_paragraphs(lines):
     if len(paragraphs[0]) > 0:
         return paragraphs
     return paragraphs[1:]
+
+_next_paragraph_id = 1
+class Paragraph(object):
+    def __init__(self, lines, style):
+        global _next_paragraph_id
+        self._lines = lines
+        self._style = style
+        self._id_number = _next_paragraph_id
+        _next_paragraph_id += 1
+
+    def get_style(self):
+        return self._style
+
+    def get_lines(self):
+        return self._lines
+
+    def get_id(self):
+        return "paragraph{}".format(self._id_number)
+
+
+def styleize_output(output_string):
+    return [Paragraph(lines, "mono")
+            for lines in _divide_into_paragraphs(output_string)]
