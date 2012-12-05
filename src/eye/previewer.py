@@ -74,6 +74,11 @@ def append_output(webpage, output):
     for p in paragraphs:
         append_paragraphs(body, p)
 
+def append_command(webpage, prompt, command):
+    body = find_body(webpage)
+    template = '<p class="user_command mono">{} {}</p>'
+    body.appendInside(template.format(prompt, command))
+
 class Previewer(QtGui.QWidget, Ui_Form):
     def __init__(self, parent=None):
         super(Previewer, self).__init__(parent)
@@ -93,6 +98,7 @@ class Previewer(QtGui.QWidget, Ui_Form):
         child.wait()
         output = child.stdout.read() + child.stderr.read()
         #self.webView.setHtml(output, self.baseUrl)
+        append_command(self.webView.page(), ">:", text)
         append_output(self.webView.page(), output)
 
 
@@ -112,6 +118,10 @@ class MainWindow(QtGui.QMainWindow):
     .mono {
       font-family: monospace;
       white-space: pre;
+    }
+
+    .user_command {
+      color: blue;
     }
   </style>
 </head>
