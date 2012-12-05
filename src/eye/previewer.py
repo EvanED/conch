@@ -105,11 +105,16 @@ class MainWindow(QtGui.QMainWindow):
 
     def setStartupText(self):
         self.centralWidget.webView.setHtml("""
-<html><body>
- <h1>HTML Previewer</h1>
-  <p>This example shows you how to use QtWebKit.QWebView to
-   preview HTML data written in a QtGui.QPlainTextEdit.
-  </p>
+<html>
+<head>
+  <style type="text/css">
+    .mono {
+      font-family: monospace;
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
 </body></html>""")
 
 
