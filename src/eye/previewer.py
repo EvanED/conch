@@ -53,6 +53,11 @@ import conch.parser
 import conch.engine
 import conch.ouiji
 
+def find_body(webpage):
+    frame = webpage.mainFrame()
+    body_collection = frame.findAllElements("body")
+    assert body_collection.count() == 1
+    return body_collection.first()
 
 def append_paragraphs(body, p):
     template = '<p class="{}" id="{}"><span>{}</span></p>'
@@ -64,11 +69,7 @@ def append_paragraphs(body, p):
     body.appendInside(html)
 
 def append_output(webpage, output):
-    frame = webpage.mainFrame()
-    body_collection = frame.findAllElements("body")
-    assert body_collection.count() == 1
-    body = body_collection.first()
-
+    body = find_body(webpage)
     paragraphs = conch.ouiji.styleize_output(output)
     for p in paragraphs:
         append_paragraphs(body, p)
