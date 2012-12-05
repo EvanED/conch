@@ -51,6 +51,27 @@ from ui_previewer import Ui_Form
 
 import conch.parser
 import conch.engine
+import conch.ouiji
+
+
+def append_paragraphs(body, p):
+    template = '<p class="{}" id="{}"><span>{}</span></p>'
+    lines = '</span><span>'.join(p.get_lines())
+    html = template.format(p.get_style(),
+                           p.get_id(),
+                           lines)
+                           
+    body.appendInside(html)
+
+def append_output(webpage, output):
+    frame = webpage.mainFrame()
+    body_collection = frame.findAllElements("body")
+    assert body_collection.count() == 1
+    body = body_collection.first()
+
+    paragraphs = conch.ouiji.styleize_output(output)
+    for p in paragraphs:
+        append_paragraphs(body, p)
 
 class Previewer(QtGui.QWidget, Ui_Form):
     def __init__(self, parent=None):
@@ -70,7 +91,8 @@ class Previewer(QtGui.QWidget, Ui_Form):
         child.stdin.close()
         child.wait()
         output = child.stdout.read() + child.stderr.read()
-        self.webView.setHtml(output, self.baseUrl)
+        #self.webView.setHtml(output, self.baseUrl)
+        append_output(self.webView.page(), output)
 
 
 class MainWindow(QtGui.QMainWindow):
