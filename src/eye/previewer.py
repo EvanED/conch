@@ -79,16 +79,24 @@ def append_command(webpage, prompt, command):
 
 
 class Previewer(QtGui.QWidget, Ui_Form):
+    childDataAvailable = QtCore.pyqtSignal('QString')
+
     def __init__(self, parent=None):
         super(Previewer, self).__init__(parent)
 
         self.setupUi(self)
         self.baseUrl = QtCore.QUrl()
 
+        self.childDataAvailable.connect(self.dataAvailable)
         self.plainTextEdit.returnPressed.connect(self.changedText)
 
     def setBaseUrl(self, url):
         self.baseUrl = url
+
+    def dataAvailable(self, text):
+        for letter in text:
+            if letter != "\r":
+                self._current_element.appendInside(letter)
 
     def changedText(self, text):
         if text == "dumphtml":
@@ -101,10 +109,9 @@ class Previewer(QtGui.QWidget, Ui_Form):
         output = child.stdout.read() + child.stderr.read()
         #self.webView.setHtml(output, self.baseUrl)
         append_command(self.webView.page(), ">:", text)
-        element = append_command_placeholder(self.webView.page())
+        self._current_element = append_command_placeholder(self.webView.page())
         for letter in output:
-            if letter != "\r":
-                element.appendInside(letter)
+            self.childDataAvailable.emit(letter)
 
 
 class MainWindow(QtGui.QMainWindow):
