@@ -40,6 +40,10 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
                 event.ignore()
                 return
 
+        if (event.key() == QtCore.Qt.Key_Return):
+            self.returnPressed.emit(self.toPlainText())
+            return
+
         ## has ctrl-E been pressed??
         isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier
                       and event.key() == QtCore.Qt.Key_E)
@@ -78,12 +82,6 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
         cr.setWidth(self.completer.popup().sizeHintForColumn(0)
             + self.completer.popup().verticalScrollBar().sizeHint().width())
         self.completer.complete(cr) ## popup it up!
-
-        return
-        if (event.key() == QtCore.Qt.Key_Return):
-            self.returnPressed.emit(self.toPlainText())
-        else:
-            self._my_super.keyPressEvent(event)
 
 
     def setCompleter(self, completer):
