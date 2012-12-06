@@ -91,6 +91,9 @@ class Previewer(QtGui.QWidget, Ui_Form):
         self.baseUrl = url
 
     def changedText(self, text):
+        if text == "dumphtml":
+            print(self.webView.page().mainFrame().toHtml())
+            return
         command_ast = conch.parser.parse_to_ast(text)
         child = conch.engine.execute(command_ast)
         child.stdin.close()
