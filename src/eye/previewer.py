@@ -102,7 +102,9 @@ class Previewer(QtGui.QWidget, Ui_Form):
         #self.webView.setHtml(output, self.baseUrl)
         append_command(self.webView.page(), ">:", text)
         element = append_command_placeholder(self.webView.page())
-        element.appendInside(output)
+        for letter in output:
+            if letter != "\r":
+                element.appendInside(letter)
 
 
 class MainWindow(QtGui.QMainWindow):
