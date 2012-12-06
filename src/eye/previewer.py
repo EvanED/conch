@@ -52,6 +52,7 @@ from ui_previewer import Ui_Form
 import conch.parser
 import conch.engine
 import conch.ouiji
+from threading import Thread
 
 def find_body(webpage):
     frame = webpage.mainFrame()
@@ -98,20 +99,27 @@ class Previewer(QtGui.QWidget, Ui_Form):
             if letter != "\r":
                 self._current_element.appendInside(letter)
 
+    def daemonChildReader(self, stream):
+        while True:
+            data = stream.read(1)
+            if data == "":
+                stream.close()
+                return
+            self.childDataAvailable.emit(data)
+
     def changedText(self, text):
         if text == "dumphtml":
             print(self.webView.page().mainFrame().toHtml())
             return
         command_ast = conch.parser.parse_to_ast(text)
-        child = conch.engine.execute(command_ast)
-        child.stdin.close()
-        child.wait()
-        output = child.stdout.read() + child.stderr.read()
-        #self.webView.setHtml(output, self.baseUrl)
         append_command(self.webView.page(), ">:", text)
         self._current_element = append_command_placeholder(self.webView.page())
-        for letter in output:
-            self.childDataAvailable.emit(letter)
+
+        child = conch.engine.execute(command_ast)
+        t = Thread(target=self.daemonChildReader,
+                   args=(child.stdout,))
+        t.daemon = True
+        t.start()
 
 
 class MainWindow(QtGui.QMainWindow):
