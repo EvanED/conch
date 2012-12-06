@@ -59,25 +59,24 @@ def find_body(webpage):
     assert body_collection.count() == 1
     return body_collection.first()
 
-def append_paragraphs(body, p):
-    template = '<p class="{}" id="{}"><span>{}</span></p>'
-    lines = '</span><span>'.join(p.get_lines())
-    html = template.format(p.get_style(),
-                           p.get_id(),
-                           lines)
-                           
-    body.appendInside(html)
-
-def append_output(webpage, output):
+_next_command_id = 1
+def append_command_placeholder(webpage):
+    global _next_command_id
     body = find_body(webpage)
-    paragraphs = conch.ouiji.styleize_output(output)
-    for p in paragraphs:
-        append_paragraphs(body, p)
+    id = "command_{}".format(_next_command_id)
+    _next_command_id += 1
+    html = '<p id="{}" class="mono"></p>'.format(id)
+    body.appendInside(html)
+    frame = webpage.mainFrame()
+    elt_collection = frame.findAllElements("#" + id)
+    assert elt_collection.count() == 1
+    return elt_collection.first()
 
 def append_command(webpage, prompt, command):
     body = find_body(webpage)
     template = '<p class="user_command mono">{} {}</p>'
     body.appendInside(template.format(prompt, command))
+
 
 class Previewer(QtGui.QWidget, Ui_Form):
     def __init__(self, parent=None):
@@ -99,7 +98,8 @@ class Previewer(QtGui.QWidget, Ui_Form):
         output = child.stdout.read() + child.stderr.read()
         #self.webView.setHtml(output, self.baseUrl)
         append_command(self.webView.page(), ">:", text)
-        append_output(self.webView.page(), output)
+        element = append_command_placeholder(self.webView.page())
+        element.appendInside(output)
 
 
 class MainWindow(QtGui.QMainWindow):
