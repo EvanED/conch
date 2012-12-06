@@ -116,8 +116,13 @@ class Previewer(QtGui.QWidget, Ui_Form):
         self._current_element = append_command_placeholder(self.webView.page())
 
         child = conch.engine.execute(command_ast)
+
         t = Thread(target=self.daemonChildReader,
                    args=(child.stdout,))
+        t.daemon = True
+        t.start()
+        t = Thread(target=self.daemonChildReader,
+                   args=(child.stderr,))
         t.daemon = True
         t.start()
 
