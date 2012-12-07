@@ -106,7 +106,7 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
         if (not isShortcut
             and (hasModifier
                  or event.text() == ""
-                 or len(completionPrefix) < 3
+                 or len(completionPrefix) < 1
                  or event.text()[-1] in eow)):
             self.completer.popup().hide()
             return
