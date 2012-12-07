@@ -81,9 +81,9 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
 
         # Space: should refresh suggestions
         if (event.text() == u" " or isShortcut):
-            options = conch.bash_completion.get_completions(self.toPlainText())
             self.completer = None
-            self.setCompleter(QtGui.QCompleter(list(options)))
+            #options = conch.bash_completion.get_completions(self.toPlainText())
+            #self.setCompleter(QtGui.QCompleter(list(options)))
 
 
         ## ctrl or shift key on it's own??
