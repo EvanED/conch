@@ -1,4 +1,5 @@
 from PyQt4 import QtCore, QtGui
+import conch.bash_completion
 
 # Much of this code from
 # http://rowinggolfer.blogspot.com/2010/08/qtextedit-with-autocompletion-using.html,
@@ -34,7 +35,7 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
     def __init__(self, parent=None):
         my_super = super(EnterActionTextEdit, self)
         my_super.__init__(parent)
-        self.completer = DictionaryCompleter()
+        self.completer = None #DictionaryCompleter()
         self._my_super = my_super
 
     def keyPressEvent(self, event):
@@ -78,11 +79,21 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
             self._my_super.keyPressEvent(event)
 
 
+        # Space: should refresh suggestions
+        if (event.text() == u" " or isShortcut):
+            options = conch.bash_completion.get_completions(self.toPlainText())
+            self.completer = None
+            self.setCompleter(QtGui.QCompleter(list(options)))
+
+
         ## ctrl or shift key on it's own??
         ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier ,
                 QtCore.Qt.ShiftModifier)
         if ctrlOrShift and event.text() == u"":
             # ctrl or shift key on it's own
+            return
+
+        if not self.completer:
             return
 
         eow = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=" #end of word
