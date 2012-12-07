@@ -97,6 +97,8 @@ class Previewer(QtGui.QWidget, Ui_Form):
         self.setupUi(self)
         self.baseUrl = QtCore.QUrl()
 
+        self.saw_one_newline = False
+
         self.childDataAvailable.connect(self.dataAvailable)
         self.plainTextEdit.returnPressed.connect(self.changedText)
         self.plainTextEdit.alt1Pressed.connect(self.setLastToPreWrap)
@@ -120,8 +122,19 @@ class Previewer(QtGui.QWidget, Ui_Form):
         self.baseUrl = url
 
     def dataAvailable(self, text):
-        if text != "\r":
-            self._current_element.appendInside(text)
+        if text == "\r":
+            return
+        if not self.saw_one_newline and text == "\n":
+            self.saw_one_newline = True
+            return
+        if self.saw_one_newline and text == "\n":
+            # second newline!...
+            self._current_element = append_command_placeholder(self.webView.page())
+            return
+        if self.saw_one_newline:
+            text = "\n" + text
+            self.saw_one_newline = False
+        self._current_element.appendInside(text)
         scroll_to_bottom(self.webView.page().mainFrame())
 
     def daemonChildReader(self, stream, template="{}"):
