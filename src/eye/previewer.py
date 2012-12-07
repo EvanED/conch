@@ -41,7 +41,7 @@
 ##
 ###########################################################################
 
-all_classes = ["pre", "mono"]
+all_classes = ["pre", "mono", "prewrap", "nowrap", "text"]
 
 import sip
 sip.setapi('QString', 3)
@@ -67,7 +67,7 @@ def append_command_placeholder(webpage):
     body = find_body(webpage)
     id = "command_{}".format(_next_command_id)
     _next_command_id += 1
-    html = '<p id="{}" class="pre"></p>'.format(id)
+    html = '<p id="{}" class="prewrap"></p>'.format(id)
     body.appendInside(html)
     frame = webpage.mainFrame()
     elt_collection = frame.findAllElements("#" + id)
@@ -99,14 +99,22 @@ class Previewer(QtGui.QWidget, Ui_Form):
 
         self.childDataAvailable.connect(self.dataAvailable)
         self.plainTextEdit.returnPressed.connect(self.changedText)
-        self.plainTextEdit.alt1Pressed.connect(self.setLastToPre)
-        self.plainTextEdit.alt2Pressed.connect(self.setLastToMono)
+        self.plainTextEdit.alt1Pressed.connect(self.setLastToPreWrap)
+        self.plainTextEdit.alt2Pressed.connect(self.setLastToPre)
+        self.plainTextEdit.alt3Pressed.connect(self.setLastToNoWrap)
+        self.plainTextEdit.alt4Pressed.connect(self.setLastToMono)
+        self.plainTextEdit.alt5Pressed.connect(self.setLastToText)
 
-    def setLastToMono(self):
-        set_class_to(self._current_element, "mono")
-
+    def setLastToPreWrap(self):
+        set_class_to(self._current_element, "prewrap")
     def setLastToPre(self):
         set_class_to(self._current_element, "pre")
+    def setLastToMono(self):
+        set_class_to(self._current_element, "mono")
+    def setLastToNoWrap(self):
+        set_class_to(self._current_element, "nowrap")
+    def setLastToText(self):
+        set_class_to(self._current_element, "text")
 
     def setBaseUrl(self, url):
         self.baseUrl = url

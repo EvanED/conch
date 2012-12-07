@@ -27,6 +27,9 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
     returnPressed = QtCore.pyqtSignal('QString')
     alt1Pressed = QtCore.pyqtSignal()
     alt2Pressed = QtCore.pyqtSignal()
+    alt3Pressed = QtCore.pyqtSignal()
+    alt4Pressed = QtCore.pyqtSignal()
+    alt5Pressed = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):
         my_super = super(EnterActionTextEdit, self)
@@ -54,9 +57,17 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
         if (is_alt_and(event, QtCore.Qt.Key_1)):
             self.alt1Pressed.emit()
             return
-
         if (is_alt_and(event, QtCore.Qt.Key_2)):
             self.alt2Pressed.emit()
+            return
+        if (is_alt_and(event, QtCore.Qt.Key_3)):
+            self.alt3Pressed.emit()
+            return
+        if (is_alt_and(event, QtCore.Qt.Key_4)):
+            self.alt4Pressed.emit()
+            return
+        if (is_alt_and(event, QtCore.Qt.Key_5)):
+            self.alt5Pressed.emit()
             return
             
 
