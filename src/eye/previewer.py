@@ -105,7 +105,6 @@ class Previewer(QtGui.QWidget, Ui_Form):
 
     def daemonChildReader(self, stream, template="{}"):
         while True:
-            print("reading from fd", stream.fileno())
             data = stream.read(1)
             if data == "":
                 stream.close()
