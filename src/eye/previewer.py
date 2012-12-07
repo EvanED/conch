@@ -66,7 +66,7 @@ def append_command_placeholder(webpage):
     body = find_body(webpage)
     id = "command_{}".format(_next_command_id)
     _next_command_id += 1
-    html = '<p id="{}" class="mono"></p>'.format(id)
+    html = '<p id="{}" class="pre"></p>'.format(id)
     body.appendInside(html)
     frame = webpage.mainFrame()
     elt_collection = frame.findAllElements("#" + id)
