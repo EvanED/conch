@@ -61,4 +61,3 @@ def get_completions(command):
             for suggestion in itertools.chain(*suggestions)
             if suggestion)
 
-get_completions("ls s")
