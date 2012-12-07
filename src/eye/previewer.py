@@ -44,7 +44,7 @@
 all_classes = ["pre", "mono", "prewrap", "nowrap", "text"]
 
 import sip
-sip.setapi('QString', 3)
+sip.setapi('QString', 2)
 
 from PyQt4 import QtCore, QtGui, QtWebKit
 
