@@ -1,0 +1,7 @@
+This is a very long line. It just keeps going and going and going and doesn't stop for quite some time. It really needs to spill off the edge of the screen.
+
+ A   B   C   D
+--- --- --- ---
+ 1   2   3   4
+ 5   6   7   8
+
