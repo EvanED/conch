@@ -56,7 +56,7 @@ from threading import Thread
 
 def find_body(webpage):
     frame = webpage.mainFrame()
-    body_collection = frame.findAllElements("body")
+    body_collection = frame.findAllElements("#content")
     assert body_collection.count() == 1
     return body_collection.first()
 
@@ -79,6 +79,10 @@ def append_command(webpage, prompt, command):
     body.appendInside(template.format(prompt, command))
 
 
+def scroll_to_bottom(frame):
+    frame.scrollToAnchor("end")
+
+
 class Previewer(QtGui.QWidget, Ui_Form):
     childDataAvailable = QtCore.pyqtSignal('QString')
 
@@ -97,6 +101,7 @@ class Previewer(QtGui.QWidget, Ui_Form):
     def dataAvailable(self, text):
         if text != "\r":
             self._current_element.appendInside(text)
+        scroll_to_bottom(self.webView.page().mainFrame())
 
     def daemonChildReader(self, stream, template="{}"):
         while True:
@@ -154,6 +159,9 @@ class MainWindow(QtGui.QMainWindow):
   </style>
 </head>
 <body>
+<div id="content">
+</div>
+<a name="end"></a>
 </body></html>""")
 
 
