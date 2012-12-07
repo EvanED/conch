@@ -94,6 +94,14 @@ class Previewer(QtGui.QWidget, Ui_Form):
 
         self.childDataAvailable.connect(self.dataAvailable)
         self.plainTextEdit.returnPressed.connect(self.changedText)
+        self.plainTextEdit.alt1Pressed.connect(self.setLastToPre)
+        self.plainTextEdit.alt2Pressed.connect(self.setLastToMono)
+
+    def setLastToMono(self):
+        print "mono!"
+
+    def setLastToPre(self):
+        print "pre!"
 
     def setBaseUrl(self, url):
         self.baseUrl = url

@@ -18,8 +18,15 @@ class DictionaryCompleter(QtGui.QCompleter):
         QtGui.QCompleter.__init__(self, words, parent)
 
 
+def is_alt_and(event, key):
+    return (event.modifiers() == QtCore.Qt.AltModifier
+            and event.key() == key)
+
+
 class EnterActionTextEdit(QtGui.QPlainTextEdit):
     returnPressed = QtCore.pyqtSignal('QString')
+    alt1Pressed = QtCore.pyqtSignal()
+    alt2Pressed = QtCore.pyqtSignal()
 
     def __init__(self, parent=None):
         my_super = super(EnterActionTextEdit, self)
@@ -49,6 +56,14 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
                       and event.key() == QtCore.Qt.Key_E)
         if (not self.completer or not isShortcut):
             self._my_super.keyPressEvent(event)
+
+        ## alt-1?
+        if (is_alt_and(event, QtCore.Qt.Key_1)):
+            self.alt1Pressed.emit()
+
+        if (is_alt_and(event, QtCore.Qt.Key_2)):
+            self.alt2Pressed.emit()
+            
 
         ## ctrl or shift key on it's own??
         ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier ,
