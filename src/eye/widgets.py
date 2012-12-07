@@ -51,19 +51,21 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
             self.returnPressed.emit(self.toPlainText())
             return
 
+        if (is_alt_and(event, QtCore.Qt.Key_1)):
+            self.alt1Pressed.emit()
+            return
+
+        if (is_alt_and(event, QtCore.Qt.Key_2)):
+            self.alt2Pressed.emit()
+            return
+            
+
         ## has ctrl-E been pressed??
         isShortcut = (event.modifiers() == QtCore.Qt.ControlModifier
                       and event.key() == QtCore.Qt.Key_E)
         if (not self.completer or not isShortcut):
             self._my_super.keyPressEvent(event)
 
-        ## alt-1?
-        if (is_alt_and(event, QtCore.Qt.Key_1)):
-            self.alt1Pressed.emit()
-
-        if (is_alt_and(event, QtCore.Qt.Key_2)):
-            self.alt2Pressed.emit()
-            
 
         ## ctrl or shift key on it's own??
         ctrlOrShift = event.modifiers() in (QtCore.Qt.ControlModifier ,
