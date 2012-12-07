@@ -61,18 +61,31 @@ def find_body(webpage):
     assert body_collection.count() == 1
     return body_collection.first()
 
+_next_stanza_id = 1
+def append_new_stanza(webpage, command_element):
+    global _next_stanza_id
+    id = 'stanza_{}'.format(_next_stanza_id)
+    html = '<p id="{}"></p>'.format(id)
+    _next_stanza_id += 1
+    command_element.appendInside(html)
+    frame = webpage.mainFrame()    
+    paragraph_collection = frame.findAllElements("#" + id)
+    assert paragraph_collection.count() == 1
+    return paragraph_collection.first()
+
 _next_command_id = 1
 def append_command_placeholder(webpage):
     global _next_command_id
     body = find_body(webpage)
     id = "command_{}".format(_next_command_id)
     _next_command_id += 1
-    html = '<p id="{}" class="prewrap"></p>'.format(id)
+    html = '<div id="{}" class="prewrap"></div>'.format(id, id)
     body.appendInside(html)
     frame = webpage.mainFrame()
-    elt_collection = frame.findAllElements("#" + id)
-    assert elt_collection.count() == 1
-    return elt_collection.first()
+    command_collection = frame.findAllElements("#" + id)
+    assert command_collection.count() == 1
+    return (command_collection.first(),
+            append_new_stanza(webpage, command_collection.first()))
 
 def append_command(webpage, prompt, command):
     body = find_body(webpage)
@@ -108,15 +121,15 @@ class Previewer(QtGui.QWidget, Ui_Form):
         self.plainTextEdit.alt5Pressed.connect(self.setLastToText)
 
     def setLastToPreWrap(self):
-        set_class_to(self._current_element, "prewrap")
+        set_class_to(self._current_cmd_element, "prewrap")
     def setLastToPre(self):
-        set_class_to(self._current_element, "pre")
+        set_class_to(self._current_cmd_element, "pre")
     def setLastToMono(self):
-        set_class_to(self._current_element, "mono")
+        set_class_to(self._current_cmd_element, "mono")
     def setLastToNoWrap(self):
-        set_class_to(self._current_element, "nowrap")
+        set_class_to(self._current_cmd_element, "nowrap")
     def setLastToText(self):
-        set_class_to(self._current_element, "text")
+        set_class_to(self._current_cmd_element, "text")
 
     def setBaseUrl(self, url):
         self.baseUrl = url
@@ -129,12 +142,12 @@ class Previewer(QtGui.QWidget, Ui_Form):
             return
         if self.saw_one_newline and text == "\n":
             # second newline!...
-            self._current_element = append_command_placeholder(self.webView.page())
+            self._current_par_element = append_new_stanza(self.webView.page(), self._current_cmd_element)
             return
         if self.saw_one_newline:
             text = "\n" + text
             self.saw_one_newline = False
-        self._current_element.appendInside(text)
+        self._current_par_element.appendInside(text)
         scroll_to_bottom(self.webView.page().mainFrame())
 
     def daemonChildReader(self, stream, template="{}"):
@@ -151,7 +164,8 @@ class Previewer(QtGui.QWidget, Ui_Form):
             return
         command_ast = conch.parser.parse_to_ast(text)
         append_command(self.webView.page(), ">:", text)
-        self._current_element = append_command_placeholder(self.webView.page())
+        t = append_command_placeholder(self.webView.page())
+        (self._current_cmd_element, self._current_par_element) = t
 
         child = conch.engine.execute(command_ast)
 
