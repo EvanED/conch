@@ -139,29 +139,8 @@ class MainWindow(QtGui.QMainWindow):
         self.setStartupText()
 
     def setStartupText(self):
-        self.centralWidget.webView.setHtml("""
-<html>
-<head>
-  <style type="text/css">
-    .mono {
-      font-family: monospace;
-      white-space: pre;
-    }
-
-    .stderr {
-      color: red;
-    }
-
-    .user_command {
-      color: blue;
-    }
-  </style>
-</head>
-<body>
-<div id="content">
-</div>
-<a name="end"></a>
-</body></html>""")
+        with open("src/eye/template.html", "r") as template:
+            self.centralWidget.webView.setHtml(template.read())
 
 
 if __name__ == '__main__':
