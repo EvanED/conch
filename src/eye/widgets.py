@@ -127,11 +127,10 @@ class EnterActionTextEdit(QtGui.QPlainTextEdit):
 
     def insertCompletion(self, completion):
         tc = self.textCursor()
-        extra = (completion.length() -
-            self.completer.completionPrefix().length())
+        start = len(self.completer.completionPrefix())
         tc.movePosition(QtGui.QTextCursor.Left)
         tc.movePosition(QtGui.QTextCursor.EndOfWord)
-        tc.insertText(completion.right(extra))
+        tc.insertText(completion[start:])
         self.setTextCursor(tc)
 
     def textUnderCursor(self):
