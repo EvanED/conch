@@ -95,17 +95,17 @@ class Previewer(QtGui.QWidget, Ui_Form):
         self.baseUrl = url
 
     def dataAvailable(self, text):
-        for letter in text:
-            if letter != "\r":
-                self._current_element.appendInside(letter)
+        if text != "\r":
+            self._current_element.appendInside(text)
 
-    def daemonChildReader(self, stream):
+    def daemonChildReader(self, stream, template="{}"):
         while True:
+            print("reading from fd", stream.fileno())
             data = stream.read(1)
             if data == "":
                 stream.close()
                 return
-            self.childDataAvailable.emit(data)
+            self.childDataAvailable.emit(template.format(data))
 
     def changedText(self, text):
         if text == "dumphtml":
@@ -122,10 +122,9 @@ class Previewer(QtGui.QWidget, Ui_Form):
         t.daemon = True
         t.start()
         t = Thread(target=self.daemonChildReader,
-                   args=(child.stderr,))
+                   args=(child.stderr, '<span class="stderr">{}</span>'))
         t.daemon = True
         t.start()
-
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -143,6 +142,10 @@ class MainWindow(QtGui.QMainWindow):
     .mono {
       font-family: monospace;
       white-space: pre;
+    }
+
+    .stderr {
+      color: red;
     }
 
     .user_command {
