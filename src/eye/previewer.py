@@ -41,6 +41,7 @@
 ##
 ###########################################################################
 
+all_classes = ["pre", "mono"]
 
 import sip
 sip.setapi('QString', 3)
@@ -82,6 +83,10 @@ def append_command(webpage, prompt, command):
 def scroll_to_bottom(frame):
     frame.scrollToAnchor("end")
 
+def set_class_to(element, class_):
+    for remove_this in all_classes:
+        element.removeClass(remove_this)
+    element.addClass(class_)
 
 class Previewer(QtGui.QWidget, Ui_Form):
     childDataAvailable = QtCore.pyqtSignal('QString')
@@ -98,10 +103,10 @@ class Previewer(QtGui.QWidget, Ui_Form):
         self.plainTextEdit.alt2Pressed.connect(self.setLastToMono)
 
     def setLastToMono(self):
-        print "mono!"
+        set_class_to(self._current_element, "mono")
 
     def setLastToPre(self):
-        print "pre!"
+        set_class_to(self._current_element, "pre")
 
     def setBaseUrl(self, url):
         self.baseUrl = url
