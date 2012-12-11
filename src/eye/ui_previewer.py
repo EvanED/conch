@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'previewer.ui'
 #
-# Created: Mon Dec  3 23:15:39 2012
+# Created: Mon Dec 10 19:25:37 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -29,7 +29,7 @@ class Ui_Form(object):
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setMargin(0)
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
-        self.webView = QtWebKit.QWebView(self.previewerBox)
+        self.webView = KeyPressWebView(self.previewerBox)
         self.webView.setUrl(QtCore.QUrl(_fromUtf8("about:blank")))
         self.webView.setObjectName(_fromUtf8("webView"))
         self.horizontalLayout_3.addWidget(self.webView)
@@ -54,5 +54,4 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QtGui.QApplication.translate("Form", "Form", None, QtGui.QApplication.UnicodeUTF8))
 
-from PyQt4 import QtWebKit
-from widgets import EnterActionTextEdit
+from widgets import KeyPressWebView, EnterActionTextEdit

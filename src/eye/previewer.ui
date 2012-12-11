@@ -28,7 +28,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QWebView" name="webView">
+        <widget class="KeyPressWebView" name="webView">
          <property name="url">
           <url>
            <string>about:blank</string>
@@ -70,9 +70,9 @@
    <header>widgets</header>
   </customwidget>
   <customwidget>
-   <class>QWebView</class>
+   <class>KeyPressWebView</class>
    <extends>QWidget</extends>
-   <header>QtWebKit/QWebView</header>
+   <header>widgets</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1,4 +1,4 @@
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtCore, QtGui, QtWebKit
 import conch.bash_completion
 
 # Much of this code from
@@ -23,6 +23,9 @@ def is_alt_and(event, key):
     return (event.modifiers() == QtCore.Qt.AltModifier
             and event.key() == key)
 
+
+class KeyPressWebView(QtWebKit.QWebView):
+    pass
 
 class EnterActionTextEdit(QtGui.QPlainTextEdit):
     returnPressed = QtCore.pyqtSignal('QString')
