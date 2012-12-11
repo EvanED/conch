@@ -25,7 +25,17 @@ def is_alt_and(event, key):
 
 
 class KeyPressWebView(QtWebKit.QWebView):
-    pass
+    keyPressed = QtCore.pyqtSignal('QKeyEvent')
+
+    def __init__(self, parent=None):
+        my_super = super(KeyPressWebView, self)
+        my_super.__init__(parent)
+        self.my_super = my_super
+
+    def keyPressEvent(self, event):
+        self.my_super.keyPressEvent(event)
+        self.keyPressed.emit(event)
+
 
 class EnterActionTextEdit(QtGui.QPlainTextEdit):
     returnPressed = QtCore.pyqtSignal('QString')

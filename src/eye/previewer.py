@@ -119,6 +119,10 @@ class Previewer(QtGui.QWidget, Ui_Form):
         self.plainTextEdit.alt3Pressed.connect(self.setLastToNoWrap)
         self.plainTextEdit.alt4Pressed.connect(self.setLastToMono)
         self.plainTextEdit.alt5Pressed.connect(self.setLastToText)
+        self.webView.keyPressed.connect(self.webKeyPressed)
+
+    def webKeyPressed(self, event):
+        print "Key", event.text()
 
     def setLastToPreWrap(self):
         set_class_to(self._current_cmd_element, "prewrap")
